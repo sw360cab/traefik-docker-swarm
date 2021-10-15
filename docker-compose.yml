@@ -24,7 +24,9 @@ services:
         - "traefik.enable=true"
         # Routers
         # HTTP
-        - "traefik.http.routers.zapp.rule=Host(`127.0.0.1`)"
+        ## Testing in local env
+        #- "traefik.http.routers.zapp.rule=Host(`127.0.0.1`)"
+        - "traefik.http.routers.zapp.rule=Host(`swarm.klosed.app`)"
         - "traefik.http.routers.zapp.entrypoints=web"
         # HTTPS
         - "traefik.http.routers.zapp-secure.rule=Host(`swarm.klosed.app`)"
