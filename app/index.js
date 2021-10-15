@@ -1,3 +1,5 @@
+const {hostname} = require('os');
+
 const fastify = require('fastify')({
   logger: true
 })
@@ -7,11 +9,12 @@ fastify.get('/', async (request, reply) => {
 });
 
 fastify.get('/healthz', async () => {
-	return {
-		uptime: process.uptime(),
-		message: 'OK',
-		timestamp: Date.now()
-	};
+  return {
+    uptime: process.uptime(),
+    message: 'OK',
+    hostname: hostname(),
+    timestamp: Date.now()
+  };
 });
 
 ;(async () => {

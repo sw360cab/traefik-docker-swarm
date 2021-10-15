@@ -13,6 +13,9 @@ services:
         condition: any
       placement:
         max_replicas_per_node: 2
+        # useful to play with, when employing more than one node
+        #constraints:
+        #  - node.role != manager
       ##########################################
       # Routing Configuration with Labels
       # In Swarm Mode, Traefik uses labels found on services, not on individual containers.
@@ -26,10 +29,10 @@ services:
         # HTTP
         ## Testing in local env
         #- "traefik.http.routers.zapp.rule=Host(`127.0.0.1`)"
-        - "traefik.http.routers.zapp.rule=Host(`swarm.klosed.app`)"
+        - "traefik.http.routers.zapp.rule=Host(`example.org`)"
         - "traefik.http.routers.zapp.entrypoints=web"
         # HTTPS
-        - "traefik.http.routers.zapp-secure.rule=Host(`swarm.klosed.app`)"
+        - "traefik.http.routers.zapp-secure.rule=Host(`example.org`)"
         - "traefik.http.routers.zapp-secure.tls=true"
         - "traefik.http.routers.zapp-secure.entrypoints=websecure"
         - "traefik.http.routers.zapp-secure.tls.certresolver=autoresolver"
@@ -49,7 +52,7 @@ services:
 
   traefik:
     # The latest official supported Traefik docker image
-    image: traefik:v2.4
+    image: traefik:v2.5
     deploy:
       placement:
         constraints:
