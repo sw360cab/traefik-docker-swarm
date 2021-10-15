@@ -1,0 +1,15 @@
+{
+  "name": "swarm",
+  "version": "0.1.0",
+  "description": "A test app to be containerized and tested in Swarm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "author": "Sergio Matone <sergio.matone at minimalgap.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^3.22.0"
+  }
+}

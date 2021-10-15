@@ -1,0 +1,18 @@
+# general
+data/
+out/
+.DS_Store
+*.swp
+*~
+.vscode
+
+# gitkepp
+!/**/.gitkeep
+
+# node
+node_modules/
+npm-debug.log
+.env
+
+# credentials
+**/secrets/

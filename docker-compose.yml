@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  app:
+    # image: 127.0.0.1:5000/swarmer/swarm-app:0.1.0
+    image: sw360cab/swarm-app:0.1.0
+    # `build` and `restart` not valid in Docker Swarm
+    # build: app/.
+    # restart: always
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: any
+      placement:
+        max_replicas_per_node: 2
+      ##########################################
+      # Routing Configuration with Labels
+      # In Swarm Mode, Traefik uses labels found on services, not on individual containers.
+      # Therefore, if you use a compose file with Swarm Mode, labels should be defined 
+      # in the deploy part of your service.
+      # This behavior is only enabled for docker-compose version 3+
+      ##########################################
+      labels:
+        - "traefik.enable=true"
+        # Routers
+        # HTTP
+        - "traefik.http.routers.zapp.rule=Host(`127.0.0.1`)"
+        - "traefik.http.routers.zapp.entrypoints=web"
+        # HTTPS
+        - "traefik.http.routers.zapp-secure.rule=Host(`swarm.klosed.app`)"
+        - "traefik.http.routers.zapp-secure.tls=true"
+        - "traefik.http.routers.zapp-secure.entrypoints=websecure"
+        - "traefik.http.routers.zapp-secure.tls.certresolver=autoresolver"
+        # Service
+        ##########################################
+        # Port Detection:
+        # Docker Swarm does not provide any port detection information to Traefik.
+        # Therefore, you must specify the port to use for communication by using
+        # the following label
+        ##########################################
+        - "traefik.http.services.zservice.loadbalancer.server.port=3000"
+        # Middlewares
+        - "traefik.http.routers.zapp.middlewares=gzipcompress"
+        - "traefik.http.routers.zapp-secure.middlewares=gzipcompress"
+        # Compress Middleware
+        - "traefik.http.middlewares.gzipcompress.compress=true"
+
+  traefik:
+    # The latest official supported Traefik docker image
+    image: traefik:v2.4
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+      # Exposes port 80 for incoming web requests
+      - "80:80"
+      - "443:443"
+      # The Web UI port http://0.0.0.0:8080 (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
