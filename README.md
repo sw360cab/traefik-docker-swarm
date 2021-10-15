@@ -48,8 +48,8 @@ Therefore, you must specify the port to use for communication by using the label
 
 `Ref`:
 
-- [Docker - Traefik](https://doc.traefik.io/traefik/providers/docker/#docker-swarm-mode "Docker - Traefik")
-- [Docker - Traefik](https://doc.traefik.io/traefik/routing/providers/docker/#port "Docker - Traefik")
+- [Docker Swarm - Traefik](https://doc.traefik.io/traefik/providers/docker/#docker-swarm-mode)
+- [Docker Port Detection - Traefik](https://doc.traefik.io/traefik/routing/providers/docker/#port)
 
 ## Prerequisites: Build Image, Tag and Push to Registry
 
@@ -123,7 +123,7 @@ When using Docker Swarm images should be present either on a public registry or 
 
   - Gotchas
     - Compose file version >= 3.0
-    - Some compose parameters are unavailable when using swarm <https://docs.docker.com/compose/compose-file/compose-file-v3/>
+    - Some compose parameters are unavailable when using swarm. Checkout the [Compose official doc](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 
 - Inspect service within the Swarm
 
